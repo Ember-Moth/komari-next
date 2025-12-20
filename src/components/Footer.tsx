@@ -18,7 +18,7 @@ const Footer = () => {
     }) + ' (GMT+8)';
   };
 
-  const buildTime = typeof __BUILD_TIME__ !== 'undefined' ? __BUILD_TIME__ : null;
+  const buildTime = null; // Build time can be set via environment variable if needed
   const [versionInfo, setVersionInfo] = useState<{ hash: string; version: string } | null>(null);
   const { call } = useRPC2Call();
 

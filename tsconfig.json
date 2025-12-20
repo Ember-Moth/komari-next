@@ -39,10 +39,6 @@
   ],
   "exclude": [
     "node_modules",
-    "src/pages.old",
-    "src/pages",
-    "src/routes.ts",
-    "src/main.tsx",
     "src/components/admin"
   ]
 }

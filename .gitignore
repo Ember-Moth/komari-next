@@ -58,16 +58,6 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 
-# Old Vite files (from migration)
-.vite/
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-vite.config.dev.ts
-
-# Old React Router pages (migrated to Next.js)
-/src/pages.old/
-/src/pages/
-
 # Yarn
 .yarn/*
 !.yarn/patches

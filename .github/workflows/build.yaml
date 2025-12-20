@@ -27,10 +27,13 @@ jobs:
         
       - name: Archive build artifacts
         run: |
-          cd dist
+          mkdir -p theme-package
+          cp komari-theme.json theme-package/
+          cp -r dist theme-package/
+          cd theme-package
           zip -r ../dist-release.zip .
           cd ..
-        # 将 dist 文件夹压缩为 dist-release.zip
+        # 创建包含 komari-theme.json 和 dist 文件夹的主题包
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
