@@ -14,15 +14,8 @@ export default function CircleChart({ value, label, subLabel, color }: CircleCha
   // Clamp value
   const chartValue = Math.min(Math.max(value, 0), 100);
 
-  // Determine color if not provided
-  const getColor = (val: number) => {
-    if (color) return color;
-    if (val >= 80) return "var(--red-9)"; // Shadcn/Radix red
-    if (val >= 60) return "var(--orange-9)"; // Shadcn/Radix orange
-    return "var(--green-9)"; // Shadcn/Radix green
-  };
-
-  const fillColor = getColor(chartValue);
+  // User requested inverted colors: White Bar on Black Background
+  const fillColor = "white";
 
   const data = [
     {
@@ -34,7 +27,7 @@ export default function CircleChart({ value, label, subLabel, color }: CircleCha
 
   return (
     <div className="flex flex-col items-center justify-center p-2">
-      <div className="h-[80px] w-[80px] relative">
+      <div className="h-[80px] w-[80px] relative bg-black rounded-full">
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart
             cx="50%"
@@ -53,7 +46,7 @@ export default function CircleChart({ value, label, subLabel, color }: CircleCha
               tick={false}
             />
             <RadialBar
-              background
+              background={{ fill: '#333' }}
               dataKey="value"
               cornerRadius={5}
             />
@@ -61,7 +54,7 @@ export default function CircleChart({ value, label, subLabel, color }: CircleCha
         </ResponsiveContainer>
         {/* Centered Percentage */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <span className="text-sm font-bold">{Math.round(chartValue)}%</span>
+          <span className="text-sm font-bold text-white">{Math.round(chartValue)}%</span>
         </div>
       </div>
       <div className="text-center mt-1">

@@ -207,6 +207,12 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
   const percentageFormatter = (value: number) => {
     return `${value.toFixed(2)}%`;
   };
+
+  const calculatePercentage = (used?: number, total?: number) => {
+    if (used === undefined || used === null || !total || total <= 0) return null;
+    const pct = (used / total) * 100;
+    return Math.min(Math.max(pct, 0), 100);
+  };
   
   const ChartTitle = (text: string, percentage: number | null, rightText: React.ReactNode) => {
     return (
@@ -354,7 +360,7 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
         <Card className={cn}>
           {ChartTitle(
             "Ram",
-            live_data?.ram?.used && node?.mem_total ? (live_data.ram.used / node.mem_total) * 100 : null,
+            calculatePercentage(live_data?.ram?.used, Number(node?.mem_total)),
             <Flex gap="0" direction="column" align="end" className="text-sm">
               <label>
                 {live_data?.ram?.used
@@ -467,7 +473,7 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
         <Card className={cn}>
           {ChartTitle(
             "Disk",
-             live_data?.disk?.used && node?.disk_total ? (live_data.disk.used / node.disk_total) * 100 : null,
+            calculatePercentage(live_data?.disk?.used, Number(node?.disk_total)),
             live_data?.disk?.used
               ? `${formatBytes(live_data.disk.used)} / ${formatBytes(
                   node?.disk_total || 0
