@@ -14,8 +14,8 @@ export default function CircleChart({ value, label, subLabel, color }: CircleCha
   // Clamp value
   const chartValue = Math.min(Math.max(value, 0), 100);
 
-  // User requested inverted colors: White Bar on Black Background
-  const fillColor = "white";
+  // Use provided color or default to white
+  const fillColor = color || "white";
 
   const data = [
     {
@@ -27,14 +27,17 @@ export default function CircleChart({ value, label, subLabel, color }: CircleCha
 
   return (
     <div className="flex flex-col items-center justify-center p-2">
-      <div className="h-[80px] w-[80px] relative bg-black rounded-full">
+      <div className="h-[90px] w-[90px] relative bg-gradient-to-br from-black to-gray-900 rounded-full shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:ring-white/20">
+        {/* Glow effect */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 to-transparent" />
+
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart
             cx="50%"
             cy="50%"
-            innerRadius="65%"
-            outerRadius="100%"
-            barSize={6}
+            innerRadius="70%"
+            outerRadius="95%"
+            barSize={8}
             data={data}
             startAngle={90}
             endAngle={-270}
@@ -46,20 +49,29 @@ export default function CircleChart({ value, label, subLabel, color }: CircleCha
               tick={false}
             />
             <RadialBar
-              background={{ fill: '#333' }}
+              background={{ fill: 'rgba(255, 255, 255, 0.1)' }}
               dataKey="value"
-              cornerRadius={5}
+              cornerRadius={10}
+              animationDuration={800}
+              animationEasing="ease-out"
             />
           </RadialBarChart>
         </ResponsiveContainer>
-        {/* Centered Percentage */}
+
+        {/* Centered Percentage with enhanced styling */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <span className="text-sm font-bold text-white">{Math.round(chartValue)}%</span>
+          <span className="text-base font-bold text-white drop-shadow-lg tracking-tight">
+            {Math.round(chartValue)}%
+          </span>
         </div>
       </div>
-      <div className="text-center mt-1">
-        <div className="text-xs font-medium text-muted-foreground">{label}</div>
-        {subLabel && <div className="text-[10px] text-muted-foreground/70">{subLabel}</div>}
+
+      {/* Labels with improved typography */}
+      <div className="text-center mt-2">
+        <div className="text-xs font-semibold text-foreground/90">{label}</div>
+        {subLabel && (
+          <div className="text-[10px] text-muted-foreground/60 mt-0.5">{subLabel}</div>
+        )}
       </div>
     </div>
   );

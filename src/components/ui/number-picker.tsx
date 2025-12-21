@@ -1,6 +1,7 @@
-import { Flex, IconButton, TextField } from "@radix-ui/themes";
 import { Minus, Plus } from "lucide-react";
 import React, { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface NumberPickerProps {
   defaultValue?: number;
@@ -66,39 +67,36 @@ export default function NumberPicker({
   const isMaxDisabled = currentValue >= max;
 
   return (
-    <Flex align="center" gap="2">
-      <IconButton
-        variant="soft"
-        radius="full"
-        size="1"
+    <div className="flex items-center gap-2">
+      <Button
+        variant="outline"
+        size="icon"
+        className="h-8 w-8 rounded-full"
         onClick={() => handleChange(currentValue - 1)}
         disabled={isMinDisabled}
         aria-label="decrement"
       >
-        <Minus size="16" />
-      </IconButton>
-      <TextField.Root
+        <Minus size={16} />
+      </Button>
+      <Input
         type="text"
         inputMode="numeric"
         value={value}
         onChange={handleInputChange}
         onBlur={handleBlur}
-        style={{ width: "4rem", textAlign: "center" }}
+        className="w-16 text-center"
         {...props}
-      >
-        <TextField.Slot />
-        <TextField.Slot />
-      </TextField.Root>
-      <IconButton
-        variant="soft"
-        radius="full"
-        size="1"
+      />
+      <Button
+        variant="outline"
+        size="icon"
+        className="h-8 w-8 rounded-full"
         onClick={() => handleChange(currentValue + 1)}
         disabled={isMaxDisabled}
         aria-label="increment"
       >
-        <Plus size="16" />
-      </IconButton>
-    </Flex>
+        <Plus size={16} />
+      </Button>
+    </div>
   );
 }

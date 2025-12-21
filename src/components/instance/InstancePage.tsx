@@ -6,7 +6,7 @@ import { useLiveData } from "@/contexts/LiveDataContext";
 import { useTranslation } from "react-i18next";
 import type { Record } from "@/types/LiveData";
 import Flag from "@/components/Flag";
-import { SegmentedControl } from "@radix-ui/themes";
+import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 import { useNodeList } from "@/contexts/NodeListContext";
 import { liveDataToRecords } from "@/utils/RecordHelper";
 import LoadChart from "./LoadChart";
@@ -92,19 +92,20 @@ export default function InstancePage({ uuid }: InstancePageProps) {
 
       {/* Charts Section */}
       <div className="w-full space-y-6">
-        <div className="flex justify-center">
-          <SegmentedControl.Root
-            radius="full"
-            value={chartView}
-            onValueChange={(value) => setChartView(value as "load" | "ping")}
-          >
-            <SegmentedControl.Item value="load">
-              {t("nodeCard.load")}
-            </SegmentedControl.Item>
-            <SegmentedControl.Item value="ping">
-              {t("nodeCard.ping")}
-            </SegmentedControl.Item>
-          </SegmentedControl.Root>
+        <div className="w-full overflow-x-auto px-2">
+          <div className="w-max mx-auto">
+            <SegmentedControl
+              value={chartView}
+              onValueChange={(value) => setChartView(value as "load" | "ping")}
+            >
+              <SegmentedControlItem value="load" className="capitalize">
+                {t("nodeCard.load")}
+              </SegmentedControlItem>
+              <SegmentedControlItem value="ping" className="capitalize">
+                {t("nodeCard.ping")}
+              </SegmentedControlItem>
+            </SegmentedControl>
+          </div>
         </div>
 
         {chartView === "load" ? (

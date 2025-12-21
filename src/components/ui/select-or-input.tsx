@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { TextField } from "@radix-ui/themes";
+import { Input } from "@/components/ui/input";
 
 type Primitive = string | number;
 
@@ -232,9 +232,9 @@ export function SelectOrInput<T extends Primitive = string>(
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
-      <TextField.Root
-        //role="combobox"
-        //aria-controls={open ? listId : undefined}
+      <Input
+        role="combobox"
+        aria-controls={open ? listId : undefined}
         aria-expanded={open}
         aria-autocomplete="list"
         placeholder={placeholder}
@@ -246,8 +246,7 @@ export function SelectOrInput<T extends Primitive = string>(
         disabled={disabled}
         type={type}
         name={name}
-        //autoComplete="off"
-        //{...inputProps}
+        autoComplete="off"
       />
       {open && (
         <div

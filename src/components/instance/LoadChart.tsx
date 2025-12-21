@@ -322,8 +322,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
                 tickLine={false}
                 axisLine={false}
                 domain={[0, 100]}
-                tickFormatter={(value, index) =>
-                  index !== 0 ? `${value}%` : ""
+                tickFormatter={(value) =>
+                  `${value}%`
                 }
                 orientation="left"
                 type="number"
@@ -407,8 +407,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
                 tickLine={false}
                 axisLine={false}
                 domain={[0, 100]}
-                tickFormatter={(value, index) =>
-                  index !== 0 ? `${value}%` : ""
+                tickFormatter={(value) =>
+                  `${value}%`
                 }
                 orientation="left"
                 type="number"
@@ -498,8 +498,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
                 tickLine={false}
                 axisLine={false}
                 domain={[0, node?.disk_total && node.disk_total > 0 ? node.disk_total : 100]}
-                tickFormatter={(value, index) =>
-                  index !== 0 ? `${formatBytes(value)}` : ""
+                tickFormatter={(value) =>
+                  `${formatBytes(value)}`
                 }
                 orientation="left"
                 type="number"
@@ -568,8 +568,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
               <YAxis
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value, index) =>
-                  index !== 0 ? `${formatBytes(value)}` : ""
+                tickFormatter={(value) =>
+                  `${formatBytes(value)}`
                 }
                 orientation="left"
                 type="number"
@@ -640,8 +640,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
               <YAxis
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value, index) =>
-                  index !== 0 ? `${value}` : ""
+                tickFormatter={(value) =>
+                  `${value}`
                 }
                 orientation="left"
                 type="number"
@@ -701,8 +701,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
                 tickLine={false}
                 axisLine={false}
                 domain={[0, 100]}
-                tickFormatter={(value, index) =>
-                  index !== 0 ? `${value}` : ""
+                tickFormatter={(value) =>
+                  `${value}`
                 }
                 orientation="left"
                 type="number"
@@ -820,8 +820,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
                     tickLine={false}
                     axisLine={false}
                     domain={[0, 100]}
-                    tickFormatter={(value, index) =>
-                      index !== 0 ? `${value}%` : ""
+                    tickFormatter={(value) =>
+                      `${value}%`
                     }
                     orientation="left"
                     type="number"

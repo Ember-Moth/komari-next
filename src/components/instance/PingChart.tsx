@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Flex, Card, Switch, Button } from "@radix-ui/themes";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 import { usePublicInfo } from "@/contexts/PublicInfoContext";
 import Loading from "@/components/loading";
@@ -15,9 +14,11 @@ import {
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import { cutPeakValues, interpolateNullsLinear } from "@/utils/RecordHelper";
 import Tips from "@/components/ui/tips";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, MoreHorizontal } from "lucide-react";
 import { useRPC2Call } from "@/contexts/RPC2Context";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 
 interface PingRecord {
   client: string;
@@ -320,12 +321,7 @@ const PingChart = ({ uuid }: { uuid: string }) => {
   }, [tasks, hiddenLines]);
 
   return (
-    <Flex
-      direction="column"
-      align="center"
-      gap="4"
-      className="w-full max-w-screen"
-    >
+    <div className="flex flex-col items-center gap-4 w-full max-w-screen">
       <div className="w-full overflow-x-auto px-2">
         <div className="w-max mx-auto">
           <SegmentedControl
@@ -360,8 +356,8 @@ const PingChart = ({ uuid }: { uuid: string }) => {
         </div>
       )}
       {latestValues.length > 0 ? (
-        <Card className="w-full max-w-full mb-2">
-          <Tips className="absolute top-0 right-0 m-2">
+        <Card className="w-full max-w-full mb-2 p-4 relative">
+          <Tips className="absolute top-2 right-2">
             <label>{t("chart.loss_tips")}</label>
           </Tips>
           <div
@@ -382,9 +378,9 @@ const PingChart = ({ uuid }: { uuid: string }) => {
                     <Tips
                       side="top"
                       trigger={
-                        <DotsHorizontalIcon
-                          className="cursor-pointer"
-                          color="gray"
+                        <MoreHorizontal
+                          className="cursor-pointer text-muted-foreground"
+                          size={16}
                         />
                       }
                     >
@@ -517,7 +513,7 @@ const PingChart = ({ uuid }: { uuid: string }) => {
           {t("common.none")}
         </div>
       )}
-      <Card className="w-full max-w-full">
+      <Card className="w-full max-w-full p-4">
         {chartData.length === 0 ? (
           <div className="w-full h-40 flex items-center justify-center text-muted-foreground">
             {t("common.none")}
@@ -581,7 +577,7 @@ const PingChart = ({ uuid }: { uuid: string }) => {
           </ChartContainer>
         )}
         <div
-          className="flex items-center justify-between gap-4"
+          className="flex items-center justify-between gap-4 mt-4"
           style={{ display: loading ? "none" : "flex" }}
         >
           <div className="flex items-center gap-2">
@@ -592,7 +588,7 @@ const PingChart = ({ uuid }: { uuid: string }) => {
             />
             <label
               htmlFor="cut-peak"
-              className="text-sm font-medium flex items-center gap-1 flex-row"
+              className="text-sm font-medium flex items-center gap-1 flex-row cursor-pointer"
             >
               {t("chart.cutPeak")}
               <Tips>
@@ -603,8 +599,8 @@ const PingChart = ({ uuid }: { uuid: string }) => {
             </label>
           </div>
           <Button
-            variant="soft"
-            size="2"
+            variant="outline"
+            size="sm"
             onClick={toggleAllLines}
             className="flex items-center gap-2"
           >
@@ -622,7 +618,7 @@ const PingChart = ({ uuid }: { uuid: string }) => {
           </Button>
         </div>
       </Card>
-    </Flex>
+    </div>
   );
 };
 
