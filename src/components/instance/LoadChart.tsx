@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import { useLiveData } from "@/contexts/LiveDataContext";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,15 +27,14 @@ import Loading from "@/components/loading";
 import CircleChart from "@/components/CircleChart";
 
 type LoadChartProps = {
+  uuid: string;
   data: RecordFormat[];
   intervalSec?: number;
 };
 
-const LoadChart = ({ data = [] }: LoadChartProps) => {
+const LoadChart = ({ uuid, data = [] }: LoadChartProps) => {
   const { t } = useTranslation();
   const { live_data: all_live_data } = useLiveData();
-  const params = useParams();
-  const uuid = params?.uuid as string;
   const { nodeList } = useNodeList();
   const { publicInfo } = usePublicInfo();
   const max_record_preserve_time = publicInfo?.record_preserve_time || 0;

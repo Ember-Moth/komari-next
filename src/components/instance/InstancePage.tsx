@@ -109,7 +109,7 @@ export default function InstancePage({ uuid }: InstancePageProps) {
         </div>
 
         {chartView === "load" ? (
-          <LoadChart data={liveDataToRecords(uuid ?? "", recent)} />
+          <LoadChart uuid={uuid ?? ""} data={liveDataToRecords(uuid ?? "", recent)} />
         ) : (
           <PingChart uuid={uuid ?? ""} />
         )}
