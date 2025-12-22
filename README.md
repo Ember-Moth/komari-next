@@ -28,6 +28,7 @@ It is built with **Next.js**, **TypeScript**, **Tailwind CSS** and **Shadcn UI**
   - **4 Card Layouts:** Classic, Modern, Minimal, Detailed - each with unique visual designs and element positioning
   - **4 Graph Designs:** Circle, Progress Bar, Bar Chart, Minimal - all following the selected color theme
   - **Customizable Status Cards:** Show/hide individual metrics on the dashboard
+  - **Bring your own background!** Use an image URL to set it as the background.
   - All settings persist locally and sync across theme changes
 
 ## Tech Stack

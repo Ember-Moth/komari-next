@@ -27,4 +27,5 @@ Komari-Next 是 Komari 监控项目的现代化前端。
   * **4 种卡片布局：** Classic、Modern、Minimal、Detailed —— 每种都有独特的视觉设计与元素布局
   * **4 种图表样式：** Circle、Progress Bar、Bar Chart、Minimal —— 均会跟随所选配色主题
   * **可自定义状态卡片：** 可在仪表盘中显示/隐藏单项指标
+  * **自带背景图！** 使用图片 URL 将其设置为背景。
   * 所有设置会在本地持久化保存，并可在主题切换时同步
