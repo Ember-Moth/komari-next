@@ -18,6 +18,7 @@ import { formatBytes } from "@/utils/unitHelper";
 import { useLiveData } from "@/contexts/LiveDataContext";
 import { useNodeList } from "@/contexts/NodeListContext";
 import { usePublicInfo } from "@/contexts/PublicInfoContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import Loading from "@/components/loading";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { CurrentTimeCard } from "@/components/CurrentTimeCard";
@@ -43,6 +44,7 @@ export default function DashboardContent() {
   const [t] = useTranslation();
   const { live_data } = useLiveData();
   const { publicInfo } = usePublicInfo();
+  const { themeConfig } = useTheme();
   
   // Sync document title with backend-set custom title
   useEffect(() => {
@@ -202,7 +204,13 @@ export default function DashboardContent() {
           </Popover>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className={`grid ${
+          themeConfig.cardLayout === 'classic' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4' :
+          themeConfig.cardLayout === 'modern' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3' :
+          themeConfig.cardLayout === 'minimal' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3' :
+          themeConfig.cardLayout === 'detailed' ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4' :
+          'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4'
+        }`}>
           {statusCards
             .filter((card) => card.visible)
             .map((card) => (
@@ -211,6 +219,7 @@ export default function DashboardContent() {
                 title={card.title}
                 value={card.renderValue ? card.renderValue() : card.getValue?.()}
                 icon={card.icon}
+                layout={themeConfig.cardLayout}
               />
             ))}
         </div>
@@ -231,27 +240,118 @@ type TopCardProps = {
   value: string | number | React.ReactNode;
   description?: string;
   icon?: React.ReactNode;
+  layout?: 'classic' | 'modern' | 'minimal' | 'detailed';
 };
 
-const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon }) => {
-  return (
-    <Card className="overflow-hidden border-none shadow-sm bg-card/50 backdrop-blur-sm hover:bg-card transition-colors duration-200">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layout = 'classic' }) => {
+  // Classic layout: Traditional card with icon on right
+  if (layout === 'classic') {
+    return (
+      <Card className="overflow-hidden border shadow-sm bg-card hover:shadow-md transition-shadow duration-200">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-xs font-medium text-muted-foreground">
+            {title}
+          </CardTitle>
+          {icon}
+        </CardHeader>
+        <CardContent>
+          <div className="text-xl font-bold">{value}</div>
+          {description && (
+            <p className="text-xs text-muted-foreground mt-1">
+              {description}
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Modern layout: Horizontal with icon on left
+  if (layout === 'modern') {
+    return (
+      <Card className="overflow-hidden border-none shadow-sm bg-gradient-to-br from-card to-card/50 hover:shadow-md transition-all duration-200 h-full">
+        <CardContent className="p-0 h-full">
+          <div className="flex h-full">
+            {/* Left accent bar with icon */}
+            <div className="w-12 bg-primary/10 flex flex-col items-center justify-center gap-2 border-r border-primary/20">
+              <div className="text-primary">
+                {icon}
+              </div>
+            </div>
+            {/* Right content area */}
+            <div className="flex-1 p-3 flex flex-col justify-center">
+              <div className="text-[9px] font-semibold text-primary uppercase tracking-wider mb-1">
+                {title}
+              </div>
+              <div className="text-lg font-bold leading-tight mb-0.5">{value}</div>
+              {description && (
+                <div className="text-xs text-muted-foreground">
+                  {description}
+                </div>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Minimal layout: Borderless, clean design
+  if (layout === 'minimal') {
+    return (
+      <div className="relative p-4 rounded-xl bg-gradient-to-br from-muted/40 to-muted/20 hover:from-muted/50 hover:to-muted/30 transition-all duration-200 backdrop-blur-sm border border-border/50">
+        {/* Icon in top right corner */}
+        <div className="absolute top-2.5 right-2.5 opacity-30 scale-75">
+          {icon}
+        </div>
+        {/* Value prominently displayed */}
+        <div className="text-2xl font-black mb-1.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+          {value}
+        </div>
+        {/* Title at bottom */}
+        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
           {title}
-        </CardTitle>
-        {icon}
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        </div>
         {description && (
-          <p className="text-xs text-muted-foreground mt-1">
+          <div className="text-xs text-muted-foreground/70 mt-1 italic">
             {description}
-          </p>
+          </div>
         )}
-      </CardContent>
-    </Card>
-  );
+      </div>
+    );
+  }
+
+  // Detailed layout: Icon on top, centered
+  if (layout === 'detailed') {
+    return (
+      <Card className="overflow-hidden border-2 shadow-md bg-card hover:shadow-xl hover:border-primary/30 transition-all duration-200">
+        <CardContent className="p-0">
+          {/* Top colored header with icon */}
+          <div className="bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 p-3 pb-2 text-center border-b">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-background shadow-lg mb-2 border-2 border-primary/20">
+              <div className="text-primary scale-110">
+                {icon}
+              </div>
+            </div>
+            <h3 className="text-[10px] font-bold text-foreground uppercase tracking-wide">
+              {title}
+            </h3>
+          </div>
+          {/* Bottom content area */}
+          <div className="p-4 text-center bg-gradient-to-b from-background to-muted/20">
+            <div className="text-2xl font-extrabold mb-1 tracking-tight">{value}</div>
+            {description && (
+              <div className="text-xs text-muted-foreground font-medium">
+                {description}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return null;
 };
 
 type StatusSettingSwitchProps = {

@@ -14,10 +14,11 @@ import type { LiveData, Record } from "../types/LiveData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getOSImage, getOSName } from "@/utils";
 import { formatBytes } from "@/utils/unitHelper";
+import { useTheme } from "@/contexts/ThemeContext";
 
 import Flag from "./Flag";
 import PriceTags from "./PriceTags";
-import CircleChart from "./CircleChart";
+import AdaptiveChart from "./AdaptiveChart";
 import MiniPingChartFloat from "./MiniPingChartFloat";
 import Tips from "./ui/tips";
 
@@ -67,7 +68,8 @@ interface NodeProps {
 const Node = ({ basic, live, online }: NodeProps) => {
   const [t] = useTranslation();
   const isMobile = useIsMobile();
-  
+  const { themeConfig } = useTheme();
+
   const defaultLive = {
     cpu: { usage: 0 },
     ram: { used: 0 },
@@ -92,33 +94,72 @@ const Node = ({ basic, live, online }: NodeProps) => {
   const totalUpload = formatBytes(liveData.network.totalUp);
   const totalDownload = formatBytes(liveData.network.totalDown);
 
+  // Layout-specific styles
+  const cardStyles = {
+    classic: "w-full transition-all duration-200 hover:shadow-lg hover:border-primary/50 overflow-hidden group border",
+    modern: "w-full transition-all duration-200 hover:shadow-lg overflow-hidden group border-none bg-gradient-to-br from-card to-card/50 shadow-sm",
+    minimal: "w-full transition-all duration-200 hover:shadow-md overflow-hidden group bg-gradient-to-br from-muted/40 to-muted/20 rounded-xl border border-border/50",
+    detailed: "w-full transition-all duration-200 hover:shadow-xl overflow-hidden group border-2 shadow-md hover:border-primary/30",
+  };
+
+  const headerStyles = {
+    classic: "pb-2 pt-4 px-4 space-y-0",
+    modern: "pb-3 pt-3 px-4 space-y-0 bg-primary/5 border-b border-primary/10",
+    minimal: "pb-2 pt-4 px-4 space-y-0",
+    detailed: "pb-3 pt-5 px-5 space-y-0 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border-b-2",
+  };
+
+  const contentStyles = {
+    classic: "p-4 pt-4",
+    modern: "p-4 pt-4 bg-gradient-to-b from-background/50 to-transparent",
+    minimal: "p-4 pt-3",
+    detailed: "p-5 pt-4 bg-gradient-to-b from-background to-muted/10",
+  };
+
+  const footerStyles = {
+    classic: "pb-3 pt-0 px-4 flex justify-between items-center",
+    modern: "pb-3 pt-0 px-4 flex justify-between items-center bg-muted/20 border-t",
+    minimal: "pb-3 pt-0 px-4 flex justify-between items-center",
+    detailed: "pb-4 pt-0 px-5 flex justify-between items-center bg-muted/30 border-t-2",
+  };
+
   return (
-    <Card 
+    <Card
       id={basic.uuid}
-      className="w-full transition-all duration-200 hover:shadow-lg hover:border-primary/50 overflow-hidden group"
+      className={cardStyles[themeConfig.cardLayout] || cardStyles.classic}
     >
       {/* Header: Identity & Status */}
-      <CardHeader className="pb-2 pt-4 px-4 space-y-0">
+      <CardHeader className={headerStyles[themeConfig.cardLayout] || headerStyles.classic}>
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="flex-shrink-0">
-              <Flag flag={basic.region} />
-            </div>
+            {/* Flag position changes based on layout */}
+            {themeConfig.cardLayout !== 'detailed' && (
+              <div className="flex-shrink-0">
+                <Flag flag={basic.region} />
+              </div>
+            )}
             <div className="flex flex-col min-w-0">
               <Link href={`/instance/${basic.uuid}`} className="group-hover:text-primary transition-colors">
-                <h3 className="font-bold text-base truncate pr-2 tracking-tight">{basic.name}</h3>
+                <h3 className={`font-bold truncate pr-2 tracking-tight ${
+                  themeConfig.cardLayout === 'detailed' ? 'text-lg' : 'text-base'
+                }`}>{basic.name}</h3>
               </Link>
               <div className="flex items-center text-[11px] text-muted-foreground/80 gap-2 mt-0.5">
                 <span className="flex items-center gap-1.5 bg-muted/50 px-1.5 py-0.5 rounded">
                   <img src={getOSImage(basic.os)} alt={basic.os} className="w-3 h-3" />
                   {getOSName(basic.os)}
                 </span>
+                {themeConfig.cardLayout === 'detailed' && (
+                  <span className="flex items-center gap-1 px-1.5 py-0.5 bg-primary/10 rounded text-primary">
+                    <Flag flag={basic.region} />
+                  </span>
+                )}
                 <span className="hidden sm:inline opacity-40">•</span>
                 <span className="hidden sm:inline">{formatUptime(liveData.uptime, t)}</span>
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-1 flex-shrink-0">
              {live?.message && <Tips color="#CE282E">{live.message}</Tips>}
              <MiniPingChartFloat
@@ -137,31 +178,41 @@ const Node = ({ basic, live, online }: NodeProps) => {
         </div>
       </CardHeader>
 
-      <Separator className="opacity-50" />
+      {themeConfig.cardLayout !== 'minimal' && <Separator className="opacity-50" />}
 
       {/* Main Content: Metrics */}
-      <CardContent className="p-4 pt-4">
-        {/* Charts Grid */}
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          <CircleChart 
-            value={liveData.cpu.usage} 
-            label="CPU" 
+      <CardContent className={contentStyles[themeConfig.cardLayout] || contentStyles.classic}>
+        {/* Charts Grid - layout affects arrangement */}
+        <div className={`grid mb-4 ${
+          themeConfig.cardLayout === 'minimal' ? 'grid-cols-3 gap-3' :
+          themeConfig.cardLayout === 'detailed' ? 'grid-cols-3 gap-4' :
+          themeConfig.cardLayout === 'modern' ? 'grid-cols-3 gap-2' :
+          'grid-cols-3 gap-2'
+        }`}>
+          <AdaptiveChart
+            value={liveData.cpu.usage}
+            label="CPU"
             subLabel={`${liveData.cpu.usage.toFixed(1)}%`}
           />
-          <CircleChart 
-            value={memoryUsagePercent} 
-            label="RAM" 
+          <AdaptiveChart
+            value={memoryUsagePercent}
+            label="RAM"
             subLabel={formatBytes(liveData.ram.used)}
           />
-          <CircleChart 
-            value={diskUsagePercent} 
-            label="Disk" 
+          <AdaptiveChart
+            value={diskUsagePercent}
+            label="Disk"
             subLabel={formatBytes(liveData.disk.used)}
           />
         </div>
 
         {/* Network Stats */}
-        <div className="bg-muted/30 rounded-lg p-3 space-y-2 text-sm">
+        <div className={`rounded-lg p-3 space-y-2 text-sm ${
+          themeConfig.cardLayout === 'modern' ? 'bg-primary/5 border border-primary/10' :
+          themeConfig.cardLayout === 'minimal' ? 'bg-background/50 border border-border/30' :
+          themeConfig.cardLayout === 'detailed' ? 'bg-muted/40 border-2 border-muted' :
+          'bg-muted/30'
+        }`}>
           <div className="flex justify-between items-center">
              <span className="text-muted-foreground flex items-center gap-1">
                <Activity className="h-3 w-3" /> {t("nodeCard.networkSpeed")}
@@ -212,7 +263,7 @@ const Node = ({ basic, live, online }: NodeProps) => {
 
       {/* Footer: Price & Extra Info */}
       {(basic.price || basic.ipv4 || basic.ipv6) && (
-        <CardFooter className="pb-3 pt-0 px-4 flex justify-between items-center">
+        <CardFooter className={footerStyles[themeConfig.cardLayout] || footerStyles.classic}>
            <PriceTags
               hidden={false}
               price={basic.price}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { Appearance } from '../contexts/ThemeContext';
+
+type Appearance = "light" | "dark" | "system";
 
 /**
  * Custom hook to convert "system" appearance to actual "light" or "dark" for Radix UI

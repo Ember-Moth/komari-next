@@ -2,6 +2,8 @@
 
 import LanguageSwitch from "./Language";
 import LoginDialog from "./Login";
+import ThemeSwitcher from "./ThemeSwitcher";
+import DarkModeToggle from "./DarkModeToggle";
 import Link from "next/link";
 import { usePublicInfo } from "@/contexts/PublicInfoContext";
 import { useTranslation } from "react-i18next";
@@ -27,6 +29,8 @@ const NavBar = () => {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
+          <DarkModeToggle />
+          <ThemeSwitcher />
           <LanguageSwitch />
 
           {publicInfo?.private_site ? (
