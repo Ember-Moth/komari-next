@@ -249,14 +249,14 @@ const Node = ({ basic, live, online }: NodeProps) => {
 
           {/* Ping Statistics */}
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground">Ping Stats (24h)</span>
+            <span className="text-muted-foreground">{t("nodeCard.pingStats")}</span>
             {pingStats.hasData ? (
               <div className="flex gap-3 font-mono text-xs text-muted-foreground">
                 <span>{pingStats.avgLoss.toFixed(1)}% Loss</span>
                 <span>{pingStats.avgVolatility.toFixed(1)} Vol</span>
               </div>
             ) : (
-              <span className="text-xs text-muted-foreground/70 italic">No ping data</span>
+              <span className="text-xs text-muted-foreground/70 italic">{t("nodeCard.noPingData")}</span>
             )}
           </div>
 
