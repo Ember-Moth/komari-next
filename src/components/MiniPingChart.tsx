@@ -168,13 +168,15 @@ const MiniPingChart = ({
   const chartConfig = useMemo(() => {
     const config: Record<string, any> = {};
     tasks.forEach((task, idx) => {
+      const lossText = typeof task.loss === 'number' ? `${task.loss.toFixed(1)}%` : 'N/A';
+      const volText = typeof task.p99_p50_ratio === 'number' ? task.p99_p50_ratio.toFixed(1) : 'N/A';
       config[task.id] = {
-        label: `${task.name}${typeof task.p99_p50_ratio === 'number' ? ` (${t('chart.volatility')}: ${task.p99_p50_ratio.toFixed(2)})` : ''}`,
+        label: `${task.name} (${lossText} ${t('chart.lossRate')} / ${volText} ${t('chart.volatility')})`,
         color: colors[idx % colors.length],
       };
     });
     return config;
-  }, [tasks]);
+  }, [tasks, t]);
 
   const handleLegendClick = useCallback((e: any) => {
     const key = e.dataKey;
@@ -182,48 +184,33 @@ const MiniPingChart = ({
   }, []);
 
   return (
-    <Card style={{ width, height }} className="flex flex-col">
+    <Card style={{ width, height }} className="flex flex-col p-3 gap-2">
       {loading && (
         <div
-          style={{
-            textAlign: "center",
-            width: "100%",
-            flexGrow: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          className="w-full flex-grow flex items-center justify-center"
         >
           <Loading />
         </div>
       )}
       {error && (
         <div
-          style={{
-            color: "red",
-            textAlign: "center",
-            width: "100%",
-            flexGrow: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          className="w-full flex-grow flex items-center justify-center text-destructive"
         >
           {error}
         </div>
       )}
       {!loading && !error && chartData.length === 0 ? (
         <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-          {t("common.none")}
+          {t("nodeCard.noPingData")}
         </div>
       ) : (
         !loading &&
         !error && (
-          <ChartContainer config={chartConfig} className="w-full h-full">
+          <ChartContainer config={chartConfig} className="w-full flex-grow">
             <LineChart
               data={chartData}
               accessibilityLayer
-              margin={{ top: 10, right: 16, bottom: 10, left: 16 }}
+              margin={{ top: 10, right: 20, bottom: 10, left: 10 }}
             >
               <CartesianGrid vertical={false} />
               <XAxis
@@ -286,9 +273,9 @@ const MiniPingChart = ({
           </ChartContainer>
         )
       )}
-      <div className="-mt-3 flex items-center" style={{ display: loading ? "none" : "flex" }}>
-        <Switch checked={cutPeak} onCheckedChange={setCutPeak} />
-        <label htmlFor="cut-peak" className="text-sm font-medium flex items-center gap-1 flex-row">
+      <div className="flex items-center gap-2 pt-1" style={{ display: loading ? "none" : "flex" }}>
+        <Switch id="cut-peak" checked={cutPeak} onCheckedChange={setCutPeak} />
+        <label htmlFor="cut-peak" className="text-sm font-medium flex items-center gap-1 flex-row cursor-pointer">
           {t("chart.cutPeak")}
           <Tips mode="popup" side="top"><span dangerouslySetInnerHTML={{ __html: t("chart.cutPeak_tips") }} /></Tips>
         </label>

@@ -17,8 +17,8 @@ interface FloatMiniPingChartProps {
 const MiniPingChartFloat: React.FC<FloatMiniPingChartProps> = ({
   uuid,
   trigger,
-  chartWidth = 400, 
-  chartHeight = 200, 
+  chartWidth = 600,
+  chartHeight = 300,
   hours = 12,
 }) => {
   const [open, setOpen] = useState(false);
@@ -66,7 +66,8 @@ const MiniPingChartFloat: React.FC<FloatMiniPingChartProps> = ({
         sideOffset={5}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="p-0 border-none shadow-lg rounded-md z-[5]"
+        className="p-2 border shadow-lg rounded-lg z-[5] bg-card"
+        style={{ width: typeof chartWidth === 'number' ? `${chartWidth}px` : chartWidth }}
       >
         <MiniPingChart hours={hours} uuid={uuid} width={chartWidth} height={chartHeight} />
       </PopoverContent>
