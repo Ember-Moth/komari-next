@@ -28,6 +28,7 @@ jobs:
       - name: Archive build artifacts
         run: |
           mkdir -p theme-package
+          cp preview.png theme-package/
           cp komari-theme.json theme-package/
           cp -r dist theme-package/
           cd theme-package

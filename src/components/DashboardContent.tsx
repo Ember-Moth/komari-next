@@ -168,10 +168,10 @@ export default function DashboardContent() {
   //#endregion
 
   return (
-    <div className="container mx-auto px-4 space-y-8">
+    <div className="container mx-auto px-4 space-y-6">
       <Callouts />
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <div className="flex justify-between items-center px-1">
           <h2 className="text-2xl font-bold tracking-tight">{t("common.dashboard", { defaultValue: "Dashboard" })}</h2>
           <Popover>
