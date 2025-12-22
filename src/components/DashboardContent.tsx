@@ -106,10 +106,15 @@ export default function DashboardContent() {
       key: "trafficOverview",
       title: t("traffic_overview"),
       icon: <ArrowUpRight className="h-4 w-4 text-muted-foreground" />,
-      getValue: () => {
+      renderValue: () => {
         const data = live_data?.data?.data;
         const online = live_data?.data?.online;
-        if (!data || !online) return "↑ 0B / ↓ 0B";
+        if (!data || !online) return (
+          <div className="flex flex-col">
+            <div>↑ 0B</div>
+            <div>↓ 0B</div>
+          </div>
+        );
         const onlineSet = new Set(online);
         const values = Object.entries(data)
           .filter(([uuid]) => onlineSet.has(uuid))
@@ -122,7 +127,12 @@ export default function DashboardContent() {
           (acc, node) => acc + (node.network.totalDown || 0),
           0
         );
-        return `↑ ${formatBytes(up)} / ↓ ${formatBytes(down)}`;
+        return (
+          <div className="flex flex-col">
+            <div>↑ {formatBytes(up)}</div>
+            <div>↓ {formatBytes(down)}</div>
+          </div>
+        );
       },
       visible: statusCardsVisibility.trafficOverview,
     },
@@ -130,10 +140,15 @@ export default function DashboardContent() {
       key: "networkSpeed",
       title: t("network_speed"),
       icon: <Zap className="h-4 w-4 text-muted-foreground" />,
-      getValue: () => {
+      renderValue: () => {
         const data = live_data?.data?.data;
         const online = live_data?.data?.online;
-        if (!data || !online) return "↑ 0 B/s / ↓ 0 B/s";
+        if (!data || !online) return (
+          <div className="flex flex-col">
+            <div>↑ 0 B/s</div>
+            <div>↓ 0 B/s</div>
+          </div>
+        );
         const onlineSet = new Set(online);
         const values = Object.entries(data)
           .filter(([uuid]) => onlineSet.has(uuid))
@@ -146,7 +161,12 @@ export default function DashboardContent() {
           (acc, node) => acc + (node.network.down || 0),
           0
         );
-        return `↑ ${formatSpeed(up)} / ↓ ${formatSpeed(down)}`;
+        return (
+          <div className="flex flex-col">
+            <div>↑ {formatSpeed(up)}</div>
+            <div>↓ {formatSpeed(down)}</div>
+          </div>
+        );
       },
       visible: statusCardsVisibility.networkSpeed,
     },
@@ -255,7 +275,7 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
           {icon}
         </CardHeader>
         <CardContent>
-          <div className="text-xl font-bold">{value}</div>
+          <div className="text-xl font-bold line-clamp-2">{value}</div>
           {description && (
             <p className="text-xs text-muted-foreground mt-1">
               {description}
@@ -279,11 +299,11 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
               </div>
             </div>
             {/* Right content area */}
-            <div className="flex-1 p-3 flex flex-col justify-center">
+            <div className="flex-1 p-3 flex flex-col justify-center min-w-0">
               <div className="text-[9px] font-semibold text-primary uppercase tracking-wider mb-1">
                 {title}
               </div>
-              <div className="text-lg font-bold leading-tight mb-0.5">{value}</div>
+              <div className="text-lg font-bold leading-tight mb-0.5 line-clamp-2">{value}</div>
               {description && (
                 <div className="text-xs text-muted-foreground">
                   {description}
@@ -305,7 +325,7 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
           {icon}
         </div>
         {/* Value prominently displayed */}
-        <div className="text-2xl font-black mb-1.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+        <div className="text-2xl font-black mb-1.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent line-clamp-2 pr-8">
           {value}
         </div>
         {/* Title at bottom */}
@@ -339,7 +359,7 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
           </div>
           {/* Bottom content area */}
           <div className="p-4 text-center bg-gradient-to-b from-background to-muted/20">
-            <div className="text-2xl font-extrabold mb-1 tracking-tight">{value}</div>
+            <div className="text-2xl font-extrabold mb-1 tracking-tight line-clamp-2">{value}</div>
             {description && (
               <div className="text-xs text-muted-foreground font-medium">
                 {description}
