@@ -4,12 +4,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import MiniPingChart from "./MiniPingChart"; 
+import MiniPingChart from "./MiniPingChart";
 
 interface FloatMiniPingChartProps {
   uuid: string;
-  trigger: React.ReactNode; 
-  chartWidth?: string | number; 
+  trigger: React.ReactNode;
+  chartWidth?: string | number;
   chartHeight?: string | number;
   hours?: number;
 }
@@ -39,7 +39,7 @@ const MiniPingChartFloat: React.FC<FloatMiniPingChartProps> = ({
     }
     hoverTimeoutRef.current = window.setTimeout(() => {
       setOpen(false);
-    }, 200); 
+    }, 200);
   }, []);
 
   const handleClick = useCallback(() => {
@@ -48,6 +48,11 @@ const MiniPingChartFloat: React.FC<FloatMiniPingChartProps> = ({
     }
     setOpen((prev) => !prev);
   }, []);
+
+  // Calculate responsive dimensions
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const responsiveWidth = isMobile ? '95vw' : (typeof chartWidth === 'number' ? `${chartWidth}px` : chartWidth);
+  const responsiveHeight = isMobile ? 250 : chartHeight;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -66,10 +71,10 @@ const MiniPingChartFloat: React.FC<FloatMiniPingChartProps> = ({
         sideOffset={5}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="p-2 border shadow-lg rounded-lg z-[5] bg-card"
-        style={{ width: typeof chartWidth === 'number' ? `${chartWidth}px` : chartWidth }}
+        className="p-2 border shadow-lg rounded-lg z-[5] bg-card max-w-[95vw] w-auto"
+        style={{ width: responsiveWidth }}
       >
-        <MiniPingChart hours={hours} uuid={uuid} width={chartWidth} height={chartHeight} />
+        <MiniPingChart hours={hours} uuid={uuid} width="100%" height={responsiveHeight} />
       </PopoverContent>
     </Popover>
   );
