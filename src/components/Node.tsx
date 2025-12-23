@@ -173,8 +173,8 @@ const Node = ({ basic, live, online }: NodeProps) => {
                     <Flag flag={basic.region} />
                   </span>
                 )}
-                <span className="hidden sm:inline opacity-40">•</span>
-                <span className="hidden sm:inline">{formatUptime(liveData.uptime, t)}</span>
+                <span className="opacity-40">•</span>
+                <span>{formatUptime(liveData.uptime, t)}</span>
               </div>
             </div>
           </div>
