@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className="antialiased bg-background text-foreground min-h-screen flex flex-col transition-colors duration-300">
         <Providers>
           <NavBar />
-          <main className="flex-1 py-8 md:py-12">
+          <main className="flex-1 py-4 md:py-12">
             {children}
           </main>
           <Footer />
