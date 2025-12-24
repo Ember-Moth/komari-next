@@ -188,7 +188,7 @@ export default function DashboardContent() {
   //#endregion
 
   return (
-    <div className="container mx-auto px-4 space-y-6">
+    <div className="container mx-auto px-4 space-y-4">
       <Callouts />
 
       <div className="flex flex-col gap-4">
