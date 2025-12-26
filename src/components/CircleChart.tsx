@@ -56,7 +56,7 @@ export default function CircleChart({ value, label, subLabel, color, compact = f
   if (compact) {
     return (
       <div className="flex items-center justify-center">
-        <div className="h-[80px] w-[80px] relative">
+        <div className="h-[40px] w-[40px] relative">
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
               cx="50%"

@@ -155,103 +155,104 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
   });
 
   return (
-    <div className="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden mx-4">
-      <Table>
-        <TableHeader>
-          <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[40px]"></TableHead>
-            <TableHead
-              className="w-[200px] cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={handleSort('name')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1">
-                {t("nodeCard.name")}
-                {getSortIcon('name')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="w-[60px] cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={handleSort('os')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1">
-                {t("nodeCard.os")}
-                {getSortIcon('os')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="w-[100px] cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={handleSort('status')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1">
-                {t("nodeCard.status")}
-                {getSortIcon('status')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="w-[120px] cursor-pointer hover:bg-muted/50 transition-colors text-center"
-              onClick={handleSort('cpu')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1" justify="center">
-                {t("nodeCard.cpu")}
-                {getSortIcon('cpu')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="w-[120px] cursor-pointer hover:bg-muted/50 transition-colors text-center"
-              onClick={handleSort('ram')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1" justify="center">
-                {t("nodeCard.ram")}
-                {getSortIcon('ram')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="w-[120px] cursor-pointer hover:bg-muted/50 transition-colors text-center"
-              onClick={handleSort('disk')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1" justify="center">
-                {t("nodeCard.disk")}
-                {getSortIcon('disk')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={handleSort('price')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1">
-                {t("nodeCard.price")}
-                {getSortIcon('price')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="cursor-pointer hover:bg-muted/50 transition-colors text-right"
-              onClick={handleSort('networkUp')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1" justify="end">
-                {t("nodeCard.networkSpeed")}
-                {getSortIcon('networkUp')}
-              </Flex>
-            </TableHead>
-            <TableHead
-              className="cursor-pointer hover:bg-muted/50 transition-colors text-right"
-              onClick={handleSort('totalUp')}
-              title={t("nodeCard.sortTooltip")}
-            >
-              <Flex align="center" gap="1" justify="end">
-                {t("nodeCard.totalTransfer")}
-                {getSortIcon('totalUp')}
-              </Flex>
-            </TableHead>
-          </TableRow>
-        </TableHeader>
+    <div className="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
+      <div className="overflow-x-auto">
+        <Table className="min-w-max">
+          <TableHeader>
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="w-[30px] px-2"></TableHead>
+              <TableHead
+                className="min-w-[140px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('name')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.name")}
+                  {getSortIcon('name')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="w-[50px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('os')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.os")}
+                  {getSortIcon('os')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="min-w-[90px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('status')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.status")}
+                  {getSortIcon('status')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="w-[80px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('cpu')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.cpu")}
+                  {getSortIcon('cpu')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="w-[80px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('ram')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.ram")}
+                  {getSortIcon('ram')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="w-[80px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('disk')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.disk")}
+                  {getSortIcon('disk')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="min-w-[100px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('price')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.price")}
+                  {getSortIcon('price')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="min-w-[140px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('networkUp')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.networkSpeed")}
+                  {getSortIcon('networkUp')}
+                </Flex>
+              </TableHead>
+              <TableHead
+                className="min-w-[140px] cursor-pointer hover:bg-muted/50 transition-colors text-center px-2"
+                onClick={handleSort('totalUp')}
+                title={t("nodeCard.sortTooltip")}
+              >
+                <Flex align="center" gap="1" justify="center" className="whitespace-nowrap">
+                  {t("nodeCard.totalTransfer")}
+                  {getSortIcon('totalUp')}
+                </Flex>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
         <TableBody>
           {sortedNodes.map((node) => {
             const isOnline = onlineNodes.includes(node.uuid);
@@ -275,7 +276,7 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
                   )}
                   onClick={() => toggleRowExpansion(node.uuid)}
                 >
-                  <TableCell className="py-3 pl-4">
+                  <TableCell className="py-2 px-2">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -288,16 +289,16 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </TableCell>
-                  <TableCell className="py-3">
-                    <Flex align="center" gap="2">
+                  <TableCell className="py-2 px-2">
+                    <div className="flex items-center justify-center gap-2">
                       <Flag flag={node.region} />
                       <Link
                         href={`/instance/${node.uuid}`}
                         className="hover:underline focus:outline-none"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="flex flex-col">
-                          <span className="font-medium text-sm truncate max-w-[150px]">
+                        <div className="flex flex-col items-center">
+                          <span className="font-medium text-sm truncate max-w-[120px]">
                             {node.name}
                           </span>
                           <span className="text-xs text-muted-foreground">
@@ -305,17 +306,17 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
                           </span>
                         </div>
                       </Link>
-                    </Flex>
+                    </div>
                   </TableCell>
 
-                  <TableCell className="py-3">
-                    <div className="flex items-center">
+                  <TableCell className="py-2 px-2">
+                    <div className="flex items-center justify-center">
                       <img src={getOSImage(node.os)} alt={node.os} className="w-5 h-5 opacity-80" />
                     </div>
                   </TableCell>
 
-                  <TableCell className="py-3">
-                    <Flex align="center" gap="2">
+                  <TableCell className="py-2 px-2">
+                    <div className="flex items-center justify-center gap-2">
                       <Badge
                         variant="outline"
                         className={cn(
@@ -331,10 +332,10 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
                       {nodeData.message && (
                         <Tips color="#ef4444">{nodeData.message}</Tips>
                       )}
-                    </Flex>
+                    </div>
                   </TableCell>
 
-                  <TableCell className="py-3">
+                  <TableCell className="py-2 px-2">
                     <div className="flex justify-center">
                       <AdaptiveChart
                         value={nodeData.cpu.usage}
@@ -344,7 +345,7 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
                     </div>
                   </TableCell>
 
-                  <TableCell className="py-3">
+                  <TableCell className="py-2 px-2">
                     <div className="flex justify-center">
                       <AdaptiveChart
                         value={memoryUsagePercent}
@@ -355,7 +356,7 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
                     </div>
                   </TableCell>
 
-                  <TableCell className="py-3">
+                  <TableCell className="py-2 px-2">
                     <div className="flex justify-center">
                       <AdaptiveChart
                         value={diskUsagePercent}
@@ -365,30 +366,34 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
                       />
                     </div>
                   </TableCell>
-                  <TableCell className="py-3">
-                    <PriceTags
-                      price={node.price}
-                      billing_cycle={node.billing_cycle}
-                      expired_at={node.expired_at}
-                      currency={node.currency}
-                      gap="1"
-                      tags={node.tags || ""}
-                    />
-                  </TableCell>
-                  <TableCell className="py-3 text-right">
-                    <div className="font-mono text-xs tabular-nums space-y-0.5">
-                      <div className="text-blue-600 dark:text-blue-400">
-                        ↑ {formatBytes(nodeData.network.up)}/s
-                      </div>
-                      <div className="text-green-600 dark:text-green-400">
-                        ↓ {formatBytes(nodeData.network.down)}/s
-                      </div>
+                  <TableCell className="py-2 px-2">
+                    <div className="flex items-center justify-center">
+                      <PriceTags
+                        price={node.price}
+                        billing_cycle={node.billing_cycle}
+                        expired_at={node.expired_at}
+                        currency={node.currency}
+                        gap="1"
+                        tags={node.tags || ""}
+                      />
                     </div>
                   </TableCell>
-                  <TableCell className="py-3 text-right">
-                    <div className="font-mono text-xs tabular-nums text-muted-foreground space-y-0.5">
-                      <div>↑ {formatBytes(nodeData.network.totalUp)}</div>
-                      <div>↓ {formatBytes(nodeData.network.totalDown)}</div>
+                  <TableCell className="py-2 px-2 text-center">
+                    <div className="font-mono text-xs tabular-nums flex items-center justify-center gap-1 whitespace-nowrap">
+                      <span className="text-blue-600 dark:text-blue-400">
+                        ↑{formatBytes(nodeData.network.up)}/s
+                      </span>
+                      <span className="text-muted-foreground">/</span>
+                      <span className="text-green-600 dark:text-green-400">
+                        ↓{formatBytes(nodeData.network.down)}/s
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-2 px-2 text-center">
+                    <div className="font-mono text-xs tabular-nums text-muted-foreground flex items-center justify-center gap-1 whitespace-nowrap">
+                      <span>↑{formatBytes(nodeData.network.totalUp)}</span>
+                      <span>/</span>
+                      <span>↓{formatBytes(nodeData.network.totalDown)}</span>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -406,7 +411,8 @@ const NodeTable: React.FC<NodeTableProps> = ({ nodes, liveData }) => {
             );
           })}
         </TableBody>
-      </Table>
+        </Table>
+      </div>
     </div>
   );
 };
