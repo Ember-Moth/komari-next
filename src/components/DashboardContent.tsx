@@ -225,11 +225,11 @@ export default function DashboardContent() {
         </div>
 
         <div className={`grid ${
-          themeConfig.cardLayout === 'classic' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4' :
+          themeConfig.cardLayout === 'classic' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4' :
           themeConfig.cardLayout === 'modern' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3' :
           themeConfig.cardLayout === 'minimal' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3' :
-          themeConfig.cardLayout === 'detailed' ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4' :
-          'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4'
+          themeConfig.cardLayout === 'detailed' ? 'grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4' :
+          'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4'
         }`}>
           {statusCards
             .filter((card) => card.visible)
@@ -268,20 +268,35 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
   if (layout === 'classic') {
     return (
       <Card className="overflow-hidden border shadow-sm bg-card hover:shadow-md transition-shadow duration-200">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xs font-medium text-muted-foreground">
-            {title}
-          </CardTitle>
-          {icon}
-        </CardHeader>
-        <CardContent>
-          <div className="text-xl font-bold line-clamp-2">{value}</div>
-          {description && (
-            <p className="text-xs text-muted-foreground mt-1">
-              {description}
-            </p>
-          )}
+        {/* Mobile: single line layout */}
+        <CardContent className="p-3 sm:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              {icon}
+              <div className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+                {title}
+              </div>
+            </div>
+            <div className="text-base font-bold line-clamp-1 shrink-0">{value}</div>
+          </div>
         </CardContent>
+        {/* Desktop: original layout */}
+        <div className="hidden sm:block">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-xs font-medium text-muted-foreground">
+              {title}
+            </CardTitle>
+            {icon}
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold line-clamp-2">{value}</div>
+            {description && (
+              <p className="text-xs text-muted-foreground mt-1">
+                {description}
+              </p>
+            )}
+          </CardContent>
+        </div>
       </Card>
     );
   }
@@ -289,16 +304,27 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
   // Modern layout: Horizontal with icon on left
   if (layout === 'modern') {
     return (
-      <Card className="overflow-hidden border-none shadow-sm bg-gradient-to-br from-card to-card/50 hover:shadow-md transition-all duration-200 h-full">
-        <CardContent className="p-0 h-full">
+      <Card className="overflow-hidden border-none shadow-sm bg-gradient-to-br from-card to-card/50 hover:shadow-md transition-all duration-200">
+        {/* Mobile: compact single line */}
+        <CardContent className="p-3 md:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="text-primary">{icon}</div>
+              <div className="text-xs font-semibold text-muted-foreground whitespace-nowrap">
+                {title}
+              </div>
+            </div>
+            <div className="text-base font-bold line-clamp-1 shrink-0">{value}</div>
+          </div>
+        </CardContent>
+        {/* Desktop: original layout */}
+        <CardContent className="p-0 h-full hidden md:block">
           <div className="flex h-full">
-            {/* Left accent bar with icon */}
             <div className="w-12 bg-primary/10 flex flex-col items-center justify-center gap-2 border-r border-primary/20">
               <div className="text-primary">
                 {icon}
               </div>
             </div>
-            {/* Right content area */}
             <div className="flex-1 p-3 flex flex-col justify-center min-w-0">
               <div className="text-[9px] font-semibold text-primary uppercase tracking-wider mb-1">
                 {title}
@@ -319,24 +345,38 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
   // Minimal layout: Borderless, clean design
   if (layout === 'minimal') {
     return (
-      <div className="relative p-4 rounded-xl bg-gradient-to-br from-muted/40 to-muted/20 hover:from-muted/50 hover:to-muted/30 transition-all duration-200 backdrop-blur-sm border border-border/50">
-        {/* Icon in top right corner */}
-        <div className="absolute top-2.5 right-2.5 opacity-30 scale-75">
-          {icon}
-        </div>
-        {/* Value prominently displayed */}
-        <div className="text-2xl font-black mb-1.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent line-clamp-2 pr-8">
-          {value}
-        </div>
-        {/* Title at bottom */}
-        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-          {title}
-        </div>
-        {description && (
-          <div className="text-xs text-muted-foreground/70 mt-1 italic">
-            {description}
+      <div className="relative rounded-xl bg-gradient-to-br from-muted/40 to-muted/20 hover:from-muted/50 hover:to-muted/30 transition-all duration-200 backdrop-blur-sm border border-border/50">
+        {/* Mobile: compact single line */}
+        <div className="p-3 sm:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="opacity-50 scale-90">{icon}</div>
+              <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide whitespace-nowrap">
+                {title}
+              </div>
+            </div>
+            <div className="text-base font-black bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent line-clamp-1 shrink-0">
+              {value}
+            </div>
           </div>
-        )}
+        </div>
+        {/* Desktop: original layout */}
+        <div className="p-4 hidden sm:block">
+          <div className="absolute top-2.5 right-2.5 opacity-30 scale-75">
+            {icon}
+          </div>
+          <div className="text-2xl font-black mb-1.5 bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent line-clamp-2 pr-8">
+            {value}
+          </div>
+          <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+            {title}
+          </div>
+          {description && (
+            <div className="text-xs text-muted-foreground/70 mt-1 italic">
+              {description}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -345,8 +385,20 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
   if (layout === 'detailed') {
     return (
       <Card className="overflow-hidden border-2 shadow-md bg-card hover:shadow-xl hover:border-primary/30 transition-all duration-200">
-        <CardContent className="p-0">
-          {/* Top colored header with icon */}
+        {/* Mobile: compact single line */}
+        <CardContent className="p-3 sm:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="text-primary">{icon}</div>
+              <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide whitespace-nowrap">
+                {title}
+              </div>
+            </div>
+            <div className="text-base font-extrabold line-clamp-1 shrink-0">{value}</div>
+          </div>
+        </CardContent>
+        {/* Desktop: original layout */}
+        <CardContent className="p-0 hidden sm:block">
           <div className="bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 p-3 pb-2 text-center border-b">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-background shadow-lg mb-2 border-2 border-primary/20">
               <div className="text-primary scale-110">
@@ -357,7 +409,6 @@ const TopCard: React.FC<TopCardProps> = ({ title, value, description, icon, layo
               {title}
             </h3>
           </div>
-          {/* Bottom content area */}
           <div className="p-4 text-center bg-gradient-to-b from-background to-muted/20">
             <div className="text-2xl font-extrabold mb-1 tracking-tight line-clamp-2">{value}</div>
             {description && (
